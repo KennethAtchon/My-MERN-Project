@@ -28,6 +28,8 @@ import { getProtectedRoute } from '../auth/index';
 import { addMessage } from '../actions/AddMessage';
 import { getMessage } from '../actions/chatActions';
 
+import { persistor } from '../store';
+
 
 
 function Copyright(props) {
@@ -124,7 +126,6 @@ function DashboardContent(props) {
   const {user, userUp  } = props;
 
   let mainuser = user != null ? user : userUp;
-
   const chats = useSelector(state => state.message.messages);
   // when the user first joins, chats should be either null or chats.sender equal to mainuser.email
   
@@ -193,10 +194,10 @@ useEffect(() => {
   function handleLogout() {
     localStorage.removeItem('jwt');
     
+    persistor.purge();
     // Redirect the user to the login page
     
     navigate('/signin');
-    
   }
 
   return (
@@ -285,11 +286,17 @@ useEffect(() => {
 
           <Paper style={{ height: '500px', overflow: 'auto' }}>
 
-        <List> 
-          {messages.map((message) => (
-            < Chatbubble message={message.text} sender={message.sender} main={mainuser.email} />
-          ))}
-        </List>
+          <List>
+  {typeof messages !== 'undefined' &&
+    messages.map((message) => (
+      <Chatbubble
+        key={Math.random()}
+        message={message.text}
+        sender={message.sender}
+        main={typeof mainuser !== 'undefined' ? mainuser.email : ''}
+      />
+    ))}
+</List>
       </Paper>
 
 

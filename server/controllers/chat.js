@@ -124,6 +124,16 @@ export const deleteFriend = async (req, res) => {
    // Save updated chat list to database
    await chatList.save();
 
+   
+
+   const chatList2 = await ChatList.findOne({ user: friend }).populate('contacts');
+    const index2 = chatList2.contacts.indexOf(sender);
+    chatList2.contacts.splice(index2, 1);
+    
+    await chatList2.save();
+
+
+
    await ChatMessage.deleteMany({
     $or: [
       { sender: sender, recipient: friend },

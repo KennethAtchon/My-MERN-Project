@@ -91,9 +91,9 @@ export default function StickyHeadTable() {
   const rows = contacts.map(contact => createData(
     contact,
      <ListItemButton onClick={handlechat.bind(this,contact)} >
-     < ChatIcon /></ListItemButton> 
+     < ChatIcon key={Math.random()} /></ListItemButton> 
      , 
-     <ListItemButton onClick={handledelete.bind(this,contact)}>< DeleteIcon /></ListItemButton>
+     <ListItemButton onClick={handledelete.bind(this,contact)}>< DeleteIcon key={Math.random()} /></ListItemButton>
      ));
 
 

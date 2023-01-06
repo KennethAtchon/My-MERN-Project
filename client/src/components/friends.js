@@ -21,6 +21,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getProtectedRoute } from '../auth/index';
 import { getFriends } from '../actions/friendActions';
+import { persistor } from '../store';
 
 function Copyright(props) {
   return (
@@ -138,7 +139,10 @@ function DashboardContent(props) {
 
   function handleLogout() {
     localStorage.removeItem('jwt');
+    
+    persistor.purge();
     // Redirect the user to the login page
+    
     navigate('/signin');
   }
 

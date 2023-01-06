@@ -82,9 +82,9 @@ export default function StickyHeadTable() {
   const rows = requests.map(request => createData(
     request.sender,request.reason,
      <ListItemButton onClick={handlerequest.bind(this,request)} >
-     < CheckCircleIcon /></ListItemButton> 
+     < CheckCircleIcon key={Math.random()} /></ListItemButton> 
      , 
-     <ListItemButton onClick={handledelete.bind(this,request)}>< DeleteIcon /></ListItemButton>
+     <ListItemButton onClick={handledelete.bind(this,request)}>< DeleteIcon key={Math.random()} /></ListItemButton>
      ));
 
 
