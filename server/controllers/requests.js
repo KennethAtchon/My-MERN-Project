@@ -11,6 +11,7 @@ const router = express.Router();
 export const sendRequest = async (req, res) => {
     try {
 
+      
       const { sender, recipient, reason } = req.body;
 
 
@@ -43,6 +44,7 @@ export const sendRequest = async (req, res) => {
         }
 
         
+        
         // Create the new request
         const newRequest = new ChatRequest({
           sender: sender,
@@ -54,8 +56,11 @@ export const sendRequest = async (req, res) => {
           await newRequest.save();
           // Send the response to the client
 
+        
       res.json({ message: 'Request sent successfully' });
       } catch (err) {
+
+        console.log(err);
       res.status(500).json({ message: err.message });
       }
   };

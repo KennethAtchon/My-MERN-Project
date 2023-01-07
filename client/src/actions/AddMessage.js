@@ -13,6 +13,7 @@ axios.post(`${url}/chat`, { sender, recipient, message })
       type: ADD_MESSAGE_SUCCESS,
       payload: response.data
     });
+    
     resolve();
   })
   .catch(error => {

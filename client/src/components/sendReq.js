@@ -126,14 +126,11 @@ function DashboardContent(props) {
    
     dispatch(createRequest(mainuser.email,recipient,reason)).then(() => {
       // Sign in was successful, clear the error message
-      
-      
-      
       setError("Success! Sent the user request.")
     })
     .catch(error => {
-      // There was an error signing in, display an error message
-      setError('That user does not exist!');
+      console.log(error);
+      
     });
   };
   

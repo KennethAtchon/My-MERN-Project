@@ -18,13 +18,15 @@ export const createRequest = (sender, recipient, reason) => dispatch => {
           payload: response.data
         });
 
+
         resolve();
       })
       .catch(error => {
         dispatch({
           type: SEND_REQUEST_FAILURE,
-          payload: error.response.data.error
+          payload: error
         });
+
 
         reject(error);
       });

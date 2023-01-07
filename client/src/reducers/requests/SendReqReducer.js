@@ -1,7 +1,8 @@
 import {
     SEND_REQUEST_REQUEST,
     SEND_REQUEST_SUCCESS,
-    SEND_REQUEST_FAILURE
+    SEND_REQUEST_FAILURE,
+    PURGE
   } from '../../actions/actionTypes';
   
   const initialState = {
@@ -29,6 +30,8 @@ import {
           loading: false,
           error: action.payload
         };
+      case PURGE:
+        return initialState;
       default:
         return state;
     }

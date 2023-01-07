@@ -1,7 +1,8 @@
 import {
     ACCEPT_REQUEST_REQUEST,
     ACCEPT_REQUEST_SUCCESS,
-    ACCEPT_REQUEST_FAILURE
+    ACCEPT_REQUEST_FAILURE,
+    PURGE
   } from '../../actions/actionTypes';
   
   const initialState = {
@@ -29,9 +30,12 @@ import {
           loading: false,
           error: action.payload
         };
+      case PURGE:
+        return initialState;
       default:
         return state;
     }
   };
+  
   
   export default acceptRequestReducer;
