@@ -7,19 +7,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ChatIcon from '@mui/icons-material/Chat';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useSelector, useDispatch } from 'react-redux';
+import { deleteFriend } from '../../actions/friendActions';
 import { useNavigate } from 'react-router-dom';
-import { declineRequest } from '../actions/requests/DeclineReqAction';
-import { acceptRequest} from '../actions/requests/AccReqActions';
+import { getMessage } from '../../actions/chatActions';
 
 
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 100 },
-  { id: 'reason', label: 'Reason', minWidth: 170 },
   { id: 'chat', label: 'Chat', minWidth: 100 },
   {
     id: 'deleted',
@@ -29,9 +28,9 @@ const columns = [
   },
 ];
 
-function createData(name, reason, chat, deleted) {
+function createData(name, chat, deleted) {
   
-  return { name,reason, chat, deleted};
+  return { name, chat, deleted};
 }
 
 
@@ -52,14 +51,21 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  
-
-    const requests = useSelector(state => state.requests.requests);
 
 
-    function handledelete(request) {
-      dispatch(declineRequest(request.sender, request.recipient)).then(() => {
-        navigate('/acceptrequest');
+    // if the user signs up or signs up 
+    const user = useSelector(state => state.user.user);
+    const userUp = useSelector(state => state.userUp.user);
+
+    let mainuser = user != null ? user : userUp;
+
+
+    const contacts = useSelector(state => state.friends.contacts);
+
+
+    function handledelete(friend) {
+      dispatch(deleteFriend(mainuser.email, friend)).then(() => {
+        navigate('/friends');
         // Do something after the action is successful
 
       }).catch(error => {
@@ -67,10 +73,10 @@ export default function StickyHeadTable() {
       });
     }
 
-    function handlerequest(request) {
+    function handlechat(friend) {
       
-      dispatch(acceptRequest( request.sender, request.recipient)).then(() => {
-        navigate('/acceptrequest');
+      dispatch(getMessage(mainuser.email, friend)).then(() => {
+        navigate('/chat');
         // Do something after the action is successful
 
       }).catch(error => {
@@ -79,12 +85,15 @@ export default function StickyHeadTable() {
     }
 
 
-  const rows = requests.map(request => createData(
-    request.sender,request.reason,
-     <ListItemButton onClick={handlerequest.bind(this,request)} >
-     < CheckCircleIcon key={Math.random()} /></ListItemButton> 
+
+
+
+  const rows = contacts.map(contact => createData(
+    contact,
+     <ListItemButton onClick={handlechat.bind(this,contact)} >
+     < ChatIcon key={Math.random()} /></ListItemButton> 
      , 
-     <ListItemButton onClick={handledelete.bind(this,request)}>< DeleteIcon key={Math.random()} /></ListItemButton>
+     <ListItemButton onClick={handledelete.bind(this,contact)}>< DeleteIcon key={Math.random()} /></ListItemButton>
      ));
 
 
@@ -93,7 +102,7 @@ export default function StickyHeadTable() {
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
+            <TableRow  key={Math.random()}>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}

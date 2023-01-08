@@ -14,20 +14,8 @@ import { signIn } from '../actions/userActions';
 import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
+import Copyright from './tools/Copyright';
 
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/signin">
-        Chat
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
