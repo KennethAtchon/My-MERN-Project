@@ -25,7 +25,7 @@ app.use('/api', authRoutes);
 app.use('/api', chatRoutes);
 app.use('/api', RequestRoutes);
 
-
+mongoose.set('strictQuery', false)
 
 mongoose.connect(process.env.URI)
   .then(() => {
